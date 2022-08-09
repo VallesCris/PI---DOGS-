@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    years:{
+    lifeSpan:{
       type: DataTypes.STRING,
     },
     image: {

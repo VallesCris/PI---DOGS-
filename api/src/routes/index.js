@@ -65,7 +65,7 @@ router.post('/dogs', async(req, res, next)=>{
             name,
             height,
             weight,
-            years,
+            lifeSpan,
             temperament,
             image
         })

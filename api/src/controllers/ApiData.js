@@ -12,7 +12,7 @@ async function getApi (){
                 temperament: e.temperament? e.temperament : 'Perro sin temperamento',
                 weight: e.weight,
                 height: e.height,
-                years: e.life_span,
+                lifeSpan: e.life_span,
                 image : el.image.url,
             }
         })

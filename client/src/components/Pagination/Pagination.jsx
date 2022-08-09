@@ -1,14 +1,21 @@
 import React  from "react";
-import {Link} from 'react-router-dom';
 
 
-export default function LandingPage (){
+export default function Pagination({dogPerPage, allDogs, pagination}){
+    const pageNumbers = [];
+
+    for(let i = 0; i <= Math.ceil(allDogs/dogPerPage); i++){
+        pageNumbers.push(i+1)
+    }
+
     return(
         <React.Fragment>
             <div>
-                <div>
-                    <h1>Landing page</h1>
-                </div>
+                {
+                    pageNumbers && pageNumbers.map(n=>{
+                        return <button key={n} onClick={()=> pagination(n)}>{n}</button>
+                    })
+                }
             </div>
         </React.Fragment>
     )
