@@ -18,9 +18,9 @@ router.get("/dogs", async(req, res, next)=>{
             const nameQuery = dogs.filter(e => e.name.toLowerCase().includes(name.toLowerCase()))
             if(nameQuery.length > 0){
                 res.status(200).json(nameQuery)
-            } else {
-                res.send(dogs)
-            }
+            }             
+        } else {
+            res.send(dogs)
         }
     } catch(error){
         console.log(error)
@@ -41,24 +41,24 @@ router.get("/dogs/:id", async(req, res, next)=>{
     }
 });
 
-router.get('/temperament', async (req, res) =>{
-    const temperamentsApi = await axios.get('https://api.thedogapi.com/v1/breeds/search?q={raza_perro}')
-    const temperaments = temperamentsApi.data.map(e => e.temperament)
-    const tempEach = temperaments.map(e=> {
-        for (let i = 0; i < e.length; i++) return e[i]
-    })
-    tempEach.forEach(el => {
-        Temperament.findOrCreate({
-            where: { name: el}
-        })
-    })
-    const allTemps = await Temperament.findAll();
-    res.send(allTemps)
-});
+// router.get('/temperament', async (req, res) =>{
+//     const temperamentsApi = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${raza_perro}`)
+//     const temperaments = temperamentsApi.data.map(e => e.temperament)
+//     const tempEach = temperaments.map(e=> {
+//         for (let i = 0; i < e.length; i++) return e[i]
+//     })
+//     tempEach.forEach(el => {
+//         Temperament.findOrCreate({
+//             where: { name: el}
+//         })
+//     })
+//     const allTemps = await Temperament.findAll();
+//     res.send(allTemps)
+// });
 
 router.post('/dogs', async(req, res, next)=>{
     try {
-        const {name, height, weight, years, image, temperament} = req.body
+        const {name, height, weight, lifeSpan, image, temperament} = req.body
         let id = Math.floor(Math.random()*12345)
         const dogCreated = await Dog.create({
             id,

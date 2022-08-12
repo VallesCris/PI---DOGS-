@@ -12,7 +12,8 @@ import {
 const initialState = {
     dogs: [],
     dogsCopy: [],
-    details: []
+    details: [],
+    allDogs: []
 }
 
 export default function rootReducer(state = initialState, action){
@@ -46,12 +47,10 @@ export default function rootReducer(state = initialState, action){
                 dogs: filterTemp
             }
         case FILTER_CREATED:
-            const dFilter = state.dogsCopy
-            const dataFiltered = action.payload === 'created' ? dFilter.filter(f => createdInDb) : dFilter.filter(a => !a.createdInDb)
-
+            const dataFiltered = action.payload === 'created' ? state.allDogs.filter(el => el.createInDb) : state.allDogs.filter(el => !el.createInDb)
             return{
                 ...state,
-                dogs: action.payload === "all" ? state.dogsCopy : dataFiltered
+                dogs: dataFiltered
             }
         case ALPHABETIC_SORT:
             const array = action.payload === "asc" ? state.dogs.sort(function(a, b){
@@ -77,20 +76,20 @@ export default function rootReducer(state = initialState, action){
                 dogs: array
             }
         case SCORE_SORT: 
-        const sortedArr = action.payload === "down" ? state.dogs.sort(function (a,b){
-            if(a.weight > a.weight){
+        const sortedArr = action.payload === "down" ? state.dogs.sort(function (a, b){
+            if(a.weight.metric > b.weight.metric){
                 return 1
             }
-            if(b.weight > a.weight){
+            if(b.weight.metric > a.weight.metric){
                 return -1
             }
             return 0
         }) : 
             state.dogs.sort(function(a, b){
-                if(a.weight > b.weight){
+                if(a.weight.metric > b.weight.metric){
                     return -1
                 }
-                if(b.weight > b.weight){
+                if(b.weight.metric > a.weight.metric){
                     return 1
                 }
                 return 0

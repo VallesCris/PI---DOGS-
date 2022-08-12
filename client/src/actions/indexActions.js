@@ -25,7 +25,7 @@ export function getAllDogs(){
 }
 
 //filtro temperamento
-export function filterByDog(){
+export function filterByTemp(payload){
     return{
         type: "TEMPERAMENT_FILTER",
         payload: payload
@@ -63,7 +63,7 @@ export function dogByName(name){
 }
 
 //temp en el post
-export function getTemperament(){
+export function getTemperaments(){
     return async function(dispatch){
         try{
             const temp = axios.get(`http://localhost:3001/temperament`)

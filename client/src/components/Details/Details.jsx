@@ -9,7 +9,7 @@ export default function DogsDetails({id}){
 
     useEffect(()=>{
         dispatch(getDogDetail(id))
-    },[dispatch ])
+    },[dispatch, (id) ])
 
     const dogDetail = useSelector((state)=> state.details)
 
@@ -30,7 +30,13 @@ export default function DogsDetails({id}){
                 
                         <h4>Temperamento: {dogDetail[0].temperament.length === 0 ? "No se han indicado dietas" : !dogDetail[0].createdInDb ? dogDetail[0].temperament + "" : dogDetail[0].temperament.map((d) => d.name + (' '))}</h4> 
 
-                        <img src={dogDetail.image} alt="Image not found"/>
+                        <imgs src={dogDetail.image} alt="Image not found"/>
+            </div>
+
+            <div>
+                <Link to = '/home'>
+                    <button>Volver al menú</button>
+                </Link>
             </div>
             
        </React.Fragment>

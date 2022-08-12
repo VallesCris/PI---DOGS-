@@ -1,134 +1,137 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import {Link} from "react-router-dom";
-import { getTemperament, postDog } from "../../actions/indexActions";
-import {useDispatch} from "react-redux";
+import React from 'react';
+import {Link} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getTemperaments, postDog } from "../../actions/indexActions";
+import { useState } from 'react';
 
-
-function validation(input){
-    const errors = {}
-    if(!input.name){
-        errors.name = "Oblitario un nombre";
+function validation(newDog){
+    let errors = {}
+    if(newDog.name === ' '){
+        errors.name = 'Must enter a name'
     }
-    if(input.height < 10 ){
-        errors.height = "La altura es menor a 10cm, ingrese una mayor"
+    if(newDog.minheight && newDog.minheight <= 0 ){
+        errors.numberMinheight = 'Remember min height should be higher than 0!'
     }
-    if(input.height > 110 ){
-        errors.height = "La altura es mayor a 110cm, ingrese una menor"
+    if(newDog.maxheight && (newDog.maxheight > 500 || parseInt(newDog.minheight) > parseInt(newDog.maxheight))){
+        errors.numberMaxheight = `${newDog.maxheight} cm is a weird max height for a dog!`
     }
-    if(input.weight < 1 ){
-        errors.weight = "Peso menor a 1kg, ingrese uno mayor"
+    if(newDog.minweight && newDog.minweight <= 0) {
+        errors.numberMinweight = 'Remember min weight should be higher than 0!'
     }
-    if(input.weight > 30 ){
-        errors.weight = "Peso mayor a 30kg, ingrese uno menor"
-    }
-    if(!input.lifeSpan){
-        errors.life_span = "Obligatorio los años de vida"
+    if(newDog.maxweight && (newDog.maxweight > 500 || parseInt(newDog.minweight) > parseInt(newDog.maxweight))){
+        errors.numberMaxweight = `${newDog.maxweight} kg is a weird max weight for a dog!`
     }
     return errors
 }
 
-export default function DogCreate(){
+export default function NewDog(){
+    const [newDog, setNewDog] = useState({name:'',  minheight:'', maxheight:'', minweight:'', maxweight:'', minlife_span:'', maxlife_span:'', temperament:[]});
     const dispatch = useDispatch();
+    const temperaments = useSelector(state => state.temperaments);
     const [errors, setErrors] = useState({})
-    const [input, setInput] = useState({
-        name: "",
-        height: null,
-        weight: null,
-        lifeSpan: null,
-        image: null,
-        temperament: []
-    })
 
-    useEffect(()=> {
-        dispatch(getTemperament())
-    }, [dispatch])
+
+    useEffect(() => {
+        dispatch(getTemperaments());
+    },[dispatch]);
+
 
     function handleChange(e){
-        setInput({
-            ...input,
-            [e.target.name] : e.target.value
-        })
+        setNewDog({
+          ...newDog,
+          [e.target.name]: e.target.value
+          
+        });
         setErrors(validation({
-            ...input,
-            [e.target.name] : e.target.value
+            ...newDog,
+            [e.target.name]: e.target.value
         }))
-        //console.log(input)
-    }
+      };
+     
+      function handleSelect(e){ 
+          setNewDog({
+              ...newDog,
+              temperament: [...newDog.temperament,e.target.value]
+          });
+          e.target.value = 'default'
+      };
 
-    function handleSelect(e){
-        if(e.target.checked){
-            setInput({
-                ...input,
-                temperament: [...input.temperament, e.target.value]
-            })
+      function handleSubmit(e){
+          e.preventDefault();
+          if(newDog.minheight >= 0 && newDog.minweight >= 0 && parseInt(newDog.maxheight) >= parseInt(newDog.minheight) && parseInt(newDog.maxweight) >= parseInt(newDog.minweight) && newDog.name){
+          dispatch(postDog(newDog));
+          alert('Dog was succesfully created');
+          setNewDog({name:'',  minheight:'', maxheight:'', minweight:'', maxweight:'', minlife_span:'', maxlife_span:'', temperament:[]});
         }
-    }
-
-    function handleSubmit(e){
-        e.preventDefault()
-        if(!input.name || !input.height || !input.weight || !input.lifeSpan){
-            return alert('Complete todos los campos')
+        else{
+            alert('Oops! Something went wrong! make sure everything is correctly completed')
         }
-        dispatch(postDog(input))
-        setInput({
-            name: "",
-            height: null,
-            weight: null,
-            lifeSpan: null,
-            image: null,
-            temperament: []
-        })
-        alert('Perro creado existosamente')
-    }
+        };
 
-    return(
-        <React.Fragment>
-            <div>
-                <div>
-                    <h1>Que tal un nuevo perro?</h1>
-                    <form onSubmit={(e)=>{handleSubmit(e)}}>
-                        <div>
-                            <div>
-                                <label>Nombre</label>
-                                <input type="text" value={input.name} name="name" onChange={(e)=>handleChange(e)}/>
-                                { errors.name && ( <p>{errors.name}</p>)}
-                            </div>
-                            <div>
-                                <label>Altura</label>
-                                <input type="text" value={input.height} name="altura" onChange={(e)=>handleChange(e)}/>
-                                { errors.height && ( <p>{errors.height}</p>)}
-                            </div>
-                            <div>
-                                <label><Peso></Peso></label>
-                                <input type="text" value={input.weight} name="peso" onChange={(e)=>handleChange(e)}/>
-                                { errors.weight && ( <p>{errors.weight}</p>)}
-                            </div>
-                            <div>
-                                <label>Años</label>
-                                <input type="text" value={input.lifeSpan} name="años" onChange={(e)=>handleChange(e)}/>
-                                { errors.lifeSpan && ( <p>{errors.lifeSpan}</p>)}
-                            </div>
-                            <div>
-                                <label>Image</label>
-                                <input type="text" value={input.image} name="años" onChange={(e)=>handleChange(e)}/>
-                            </div>
-                            <div>
-                                <label>Escoge el temperamento: </label>
-                                <select onChange ={e => handleSelect(e)} defaultValue='default'>
-                                <option value='default' disabled='default'></option>
-                                { temperament && temperament.map(d =>    
-                                <option key={d} value={d}>{d}</option>
-                                )}
-                                </select>
-                            </div>
-
-                            <button type="submit" disabled={Object.keys(errors.length)}>Crear Perro</button>
-                        </div>
-                    </form>
-                    <Link to = '/home'><button>Volver a inicio</button></Link>
-                </div>
+      
+    return (
+        <div>
+        <div>
+        <br />
+        <Link to ='/home'>
+        <button>Home</button> 
+        </Link>
+        <h3>CREATE NEW DOG</h3>
+        <form onSubmit={handleSubmit} >
+            <div >
+            <label>Name/Breed </label>
+            <input type="text" name ="name" value ={newDog.name} onChange={handleChange}/><br/>
+            { errors.name && 
+            <span>{errors.name}</span>
+            }
             </div>
-        </React.Fragment>
-    )
-}
+            <div>
+            <label>Min. height (cm) </label>
+            <input type="number" name ="minheight" value ={newDog.minheight} onChange={handleChange} />
+            <label>Max. height (cm) </label>
+            <input type="number" name ="maxheight" value ={newDog.maxheight} onChange={handleChange} />
+            <br />
+            { (errors.numberMinheight ||errors.numberMaxheight) && 
+            <span>{(errors.numberMinheight)|| (errors.numberMaxheight)}</span>
+            }            
+            </div>
+            <div>
+            <label>Min. weight (kg) </label>
+            <input type="number" name ="minweight" value ={newDog.minweight} onChange={handleChange}/>
+            <label>Max. weight (kg) </label>
+            <input type="number" name ="maxweight" value ={newDog.maxweight} onChange={handleChange} />
+            <br />
+            { (errors.numberMaxweight || errors.numberMinweight) && 
+            <span>{(errors.numberMaxweight)||(errors.numberMinweight)}</span>
+            }
+            </div>
+            <div>
+            <label>Min. life span </label>
+            <input type="number" name ="minlife_span" value ={newDog.minlife_span} onChange={handleChange}/>
+            <label>Max. life span </label>
+            <input type="number" name ="maxlife_span" value ={newDog.maxlife_span} onChange={handleChange}/>
+            </div>
+            <div>
+            <label>Choose temperaments: </label>
+            <select onChange ={e => handleSelect(e)} defaultValue='default'>
+            <option value='default' disabled='default'></option>
+            { temperaments && temperaments.map(d =>    
+            <option key={d} value={d}>{d}</option>
+            )}
+            </select>
+            </div>
+            <br /><br />
+            <button type='submit'>Submit</button>
+            <br /><br />
+        </form>
+        </div>
+        </div>
+    ) 
+    
+}  
+
+
+
+
+
