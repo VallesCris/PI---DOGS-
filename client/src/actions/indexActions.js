@@ -51,7 +51,7 @@ export function getDogDetail(id){
 export function dogByName(name){
     return async function(dispatch){
         try{
-            const search = await axios.get(`http://localhost:3001/dogs/${name}`)
+            const search = await axios.get(`http://localhost:3001/dogs?name=${name}`)
             return dispatch({
                 type: "SEARCH_DOG",
                 payload: search.data

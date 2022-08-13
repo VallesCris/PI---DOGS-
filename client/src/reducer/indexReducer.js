@@ -13,8 +13,9 @@ const initialState = {
     dogs: [],
     dogsCopy: [],
     details: [],
-    allDogs: []
+    allDogs: [],
 }
+var flag = false;
 
 export default function rootReducer(state = initialState, action){
     switch(action.type){
@@ -38,14 +39,41 @@ export default function rootReducer(state = initialState, action){
                 ...state,
                 dogs: action.payload
             }
-        case TEMPERAMENT_FILTER:
-            const allDogs = state.dogsCopy
-            const filterTemp = allDogs.filter(e => e.dog?.some(r => r === action.payload))
 
-            return{
-                ...state,
-                dogs: filterTemp
-            }
+
+            //PRUEBA TEMP FILTER|
+            case TEMPERAMENT_FILTER:
+                let dogs3 = state.allDogs;
+                let dogsTemp;
+                if(flag){
+                    dogs3 = state.dogs
+                }
+                if(action.payload === 'all'){
+                    dogsTemp = state.allDogs
+                }
+                else{
+                dogsTemp = dogs3.filter(d => 
+                        d.temperament && d.temperament.length && d.temperament.includes(action.payload)
+                    )
+                }
+    
+                if(!dogsTemp.length){
+                    alert('No dogs found.Click reload dogs to re-start ')
+                }
+                flag = true
+    
+                return{
+                    ...state,
+                    dogs: dogsTemp
+                };
+        // case TEMPERAMENT_FILTER:
+        //     const allDogs = state.dogsCopy
+        //     const filterTemp = allDogs.filter(e => e.dog?.some(r => r === action.payload))
+
+        //     return{
+        //         ...state,
+        //         dogs: filterTemp
+        //     }
         case FILTER_CREATED:
             const dataFiltered = action.payload === 'created' ? state.allDogs.filter(el => el.createInDb) : state.allDogs.filter(el => !el.createInDb)
             return{
@@ -75,6 +103,7 @@ export default function rootReducer(state = initialState, action){
                 ...state,
                 dogs: array
             }
+            //SCORE = PESO
         case SCORE_SORT: 
         const sortedArr = action.payload === "down" ? state.dogs.sort(function (a, b){
             if(a.weight.metric > b.weight.metric){

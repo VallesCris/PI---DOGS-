@@ -4,8 +4,8 @@ import {useDispatch} from "react-redux";
 import { dogByName } from "../../actions/indexActions";
 
 
-export default function SearchBar(){
 
+export default function SearchBar(){
     const dispatch = useDispatch();
     const [name, setName] = useState("");
 
@@ -25,7 +25,7 @@ export default function SearchBar(){
     }
     return(
         <React.Fragment>
-            <input type="text" placeholder="Busca aqui" onChange={(e)=> handleInputChange(e)}/>
+            <input value={name} type="text" placeholder="Busca aqui" onChange={(e)=> handleInputChange(e)}/>
             <button type="submit" onClick={(e)=> handleSubmit(e)}>Buscar</button>
         </React.Fragment>
     )

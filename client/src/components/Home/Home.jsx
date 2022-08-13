@@ -17,7 +17,7 @@ export default function HomePage(){
     const indexFirstDog = indexLastDog - dogPerPage;
     const dogActual = allDogs.slice(indexFirstDog, indexLastDog)
     const temperaments = useSelector(state => state.temperaments);
-    console.log('dogActual', dogActual);
+    //console.log('dogActual', dogActual);
 
     const paginado = (numberPage) => {
         setPagActual(numberPage)
@@ -44,7 +44,7 @@ export default function HomePage(){
     function handleAToZ(e){
         e.preventDefault(e)
         dispatch(alphabeticSort(e.target.value))
-        setPagActual(1)
+        setPagActual(1);
         setOrden(`Ordenado ${e.target.value}`)
     }
 
