@@ -32,8 +32,8 @@ router.get("/dogs/:id", async(req, res, next)=>{
         const {id} = req.params
         const dogId = await getAllInfo();
         if(id){
-            const dogsId = dogId.filter(e => e.id.toString() === id.toString());
-            if(dogsId.length > 0) res.status(200).send(id)
+            const dog = dogId.find(e => e.id.toString() === id.toString());
+            if(dog) res.status(200).send(dog)
             else res.status(404).json('No hay perros con ese ID')
         }
     } catch (error){

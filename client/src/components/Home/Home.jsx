@@ -16,8 +16,8 @@ export default function HomePage(){
     const indexLastDog = pagActual * dogPerPage;
     const indexFirstDog = indexLastDog - dogPerPage;
     const dogActual = allDogs.slice(indexFirstDog, indexLastDog)
-    const temperaments = useSelector(state => state.temperaments);
-    //console.log('dogActual', dogActual);
+    const temperaments = useSelector(state => state.temperament);
+    console.log('dogActual', dogActual);
 
     const paginado = (numberPage) => {
         setPagActual(numberPage)
@@ -83,17 +83,18 @@ export default function HomePage(){
                 <div>
                     <select onChange={e=>{handleFilterDb(e)}}>
                         <option value="">Todos los perros</option>
-                        <option value="current">Creados</option>
-                        <option value="created">Existentes</option>
+                        <option value="created">Creados</option>
+                        <option value="current">Existentes</option>
                     </select>
                 </div>
                 <div>
                     <select onChange ={e => handleFilterByTemp(e)} defaultValue="default">
                         <option value='default' disabled='disabled' >Filter by temperaments</option>
-                        <option value='all' key="all">All temperaments</option>
-                            { temperaments && temperaments.map(d =>   
-                        <option key={d} value={d}>{d}</option>
-                )}
+                        <option value='all'>All temperaments</option>
+                        <option value='Loyal'>Loyal</option>
+                        {/* Temperamentos por nombre c/u */}
+
+                            
             </select>
                 </div>
                 <Pagination

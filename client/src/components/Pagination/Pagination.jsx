@@ -4,7 +4,7 @@ import React  from "react";
 export default function Pagination({dogPerPage, allDogs, pagination}){
     const pageNumbers = [];
 
-    for(let i = 0; i <= Math.ceil(allDogs/dogPerPage); i++){
+    for(let i = 0; i < Math.ceil(allDogs/dogPerPage); i++){
         pageNumbers.push(i+1)
     }
 
