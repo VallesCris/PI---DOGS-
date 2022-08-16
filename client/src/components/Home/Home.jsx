@@ -16,7 +16,7 @@ export default function HomePage(){
     const indexLastDog = pagActual * dogPerPage;
     const indexFirstDog = indexLastDog - dogPerPage;
     const dogActual = allDogs.slice(indexFirstDog, indexLastDog)
-    const temperaments = useSelector(state => state.temperament);
+    //const temperaments = useSelector(state => state.temperament);
     console.log('dogActual', dogActual);
 
     const paginado = (numberPage) => {
@@ -65,6 +65,7 @@ export default function HomePage(){
                 </Link>
                 <button onClick={e=>{handleClick(e)}}>Recargar Perros</button>
                 </div>
+                <SearchBar/>
 
                 <div>
                     <select onChange={e=> {handleAToZ(e)}}>
@@ -91,19 +92,26 @@ export default function HomePage(){
                     <select onChange ={e => handleFilterByTemp(e)} defaultValue="default">
                         <option value='default' disabled='disabled' >Filter by temperaments</option>
                         <option value='all'>All temperaments</option>
-                        <option value='Loyal'>Loyal</option>
+                        <option value='Loyal'>Leal</option>
+                        <option value='Curious'>Curioso</option>
+                        <option value='Playful'>Juguetón</option>
+                        <option value='Adventurous'>Aventuroso</option>
+                        <option value='Active'>Activo</option>
+                        <option value='Fun-loving'>Amante de la diversión</option>
+                        <option value='Independent'>Independiente</option>
+                        <option value='Happy'>Alegre</option>
+                        <option value='Wild'>Salvaje</option>
+                        <option value='Friendly'>Amigable</option>
+                        <option value='Intelligent'>Inteligente</option>
+                        <option value='Brave'>Valiente</option>
+                        <option value='Gentle'>Caballeroso</option>
+
                         {/* Temperamentos por nombre c/u */}
 
                             
             </select>
                 </div>
-                <Pagination
-                dogPerPage={dogPerPage}
-                allDogs = {allDogs.length}
-                pagination = {paginado}
-                />
-
-                <SearchBar/>
+                
                 <div>
                     <span>
                         <div>
@@ -121,6 +129,11 @@ export default function HomePage(){
                         </div>
                     </span>
                 </div>
+                <Pagination
+                dogPerPage={dogPerPage}
+                allDogs = {allDogs.length}
+                pagination = {paginado}
+                />
 
             </div>
         </React.Fragment>

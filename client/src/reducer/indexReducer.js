@@ -15,7 +15,6 @@ const initialState = {
     dogDetails: [],
     temperament: [],
 }
-var flag = false;
 
 export default function rootReducer(state = initialState, action){
     switch(action.type){

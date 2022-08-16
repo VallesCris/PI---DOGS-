@@ -7,7 +7,7 @@ export default function LandingPage(){
         <React.Fragment>
             <div>
                 <div>
-                    <h1>Welcome fucking bitch</h1>
+                    <h1>Bienvenido al PI-DOGS</h1>
                 </div>
                 <Link to = '/home'>
                     <button>Ingresar</button>
