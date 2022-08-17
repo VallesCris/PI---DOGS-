@@ -15,7 +15,7 @@ function App() {
       <Route exact path='/dogs' component={DogCreate}/>
       <Route path='/dogs/:id' component={Details}/>
       </Switch>
-      <h1>Henry Dogs</h1>
+      {/* <h1>Henry Dogs</h1> */}
     </div>
     </BrowserRouter>
   );

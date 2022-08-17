@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import {useDispatch} from "react-redux";
 import { dogByName } from "../../actions/indexActions";
+import hm from '../Home/hm.module.css'
 
 
 
@@ -26,7 +27,7 @@ export default function SearchBar(){
     return(
         <React.Fragment>
             <input value={name} type="text" placeholder="Busca aqui" onChange={(e)=> handleInputChange(e)}/>
-            <button type="submit" onClick={(e)=> handleSubmit(e)}>Buscar</button>
+            <button className={hm.botonNewDog} type="submit" onClick={(e)=> handleSubmit(e)}>Buscar</button>
         </React.Fragment>
     )
 

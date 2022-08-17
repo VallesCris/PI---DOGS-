@@ -36,7 +36,7 @@ export default function rootReducer(state = initialState, action){
         case GET_TEMP:
             return{
                 ...state,
-                dogs: action.payload
+                temperament: action.payload
             }
             case TEMPERAMENT_FILTER:
                 const filterTemp = state.allDogs.filter(e => e.temperament.split(', ')?.some(r => r === action.payload))
@@ -111,29 +111,3 @@ export default function rootReducer(state = initialState, action){
                 }
             }
         };
-        
-                    //PRUEBA TEMP FILTER|
-                    // case TEMPERAMENT_FILTER:
-                    //     let dogs3 = state.allDogs;
-                    //     let dogsTemp;
-                    //     if(flag){
-                    //         dogs3 = state.dogs
-                    //     }
-                    //     if(action.payload === 'all'){
-                    //         dogsTemp = state.allDogs
-                    //     }
-                    //     else{
-                    //     dogsTemp = dogs3.filter(d => 
-                    //             d.temperament && d.temperament.length && d.temperament.includes(action.payload)
-                    //         )
-                    //     }
-            
-                    //     if(!dogsTemp.length){
-                    //         alert('No dogs found.Click reload dogs to re-start ')
-                    //     }
-                    //     flag = true
-            
-                    //     return{
-                    //         ...state,
-                    //         dogs: dogsTemp
-                    //     };

@@ -1,5 +1,5 @@
 import React  from "react";
-
+import pg from '../Pagination/pg.module.css'
 
 export default function Pagination({dogPerPage, allDogs, pagination}){
     const pageNumbers = [];
@@ -13,7 +13,7 @@ export default function Pagination({dogPerPage, allDogs, pagination}){
             <div>
                 {
                     pageNumbers && pageNumbers.map(n=>{
-                        return <button key={n} onClick={()=> pagination(n)}>{n}</button>
+                        return <button className={pg.buttonPg} key={n} onClick={()=> pagination(n)}>{n}</button>
                     })
                 }
             </div>

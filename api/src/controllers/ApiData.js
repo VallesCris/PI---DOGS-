@@ -24,13 +24,27 @@ const getApi = async ()=>{
 }
 
 const getDbInfo = async()=>{
-    return await Dog.findAll({
+    const dogsO = await Dog.findAll({
         include:{
             model: Temperament,
             attributes: ["name"],
             through:{
                 attributes: []
-            }
+            }   
+        },
+        //raw: true
+    })
+
+    console.log('dogs', dogsO)
+    return dogsO.map(e =>{
+        return{
+            id: e.id,
+            name: e.name,
+            temperament: e.temperaments ? e.temperaments.map(x => x.name).join(', ') : 'Perro sin temperamento',
+            weight: {metric: e.weight},
+            height: {metric: e.height},
+            lifeSpan: e.lifeSpan,
+            image: e.image,
         }
     })
 }
@@ -38,7 +52,6 @@ const getDbInfo = async()=>{
 const getAllInfo = async()=>{
     const apiInfo = await getApi();
     const dbInfo = await getDbInfo();
-    //console.log('apiInfo', apiInfo)
     const allInfo = await apiInfo.concat(dbInfo);
     
 

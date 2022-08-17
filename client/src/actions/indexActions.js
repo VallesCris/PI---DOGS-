@@ -80,7 +80,7 @@ export function getTemperaments(){
 //post
 export function postDog(payload){
     return async function(dispatch){
-        const posteo = await axios.get(`http://localhost:3001/dogs`, payload)
+        const posteo = await axios.post(`http://localhost:3001/dogs`, payload)
         return posteo
     }
 }

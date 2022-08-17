@@ -6,17 +6,20 @@ import { getAllDogs, filterByTemp, dogCreated, alphabeticSort, scoreSort } from 
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
+import cd from '../Card/cd.module.css'
+import hm from '../Home/hm.module.css'
+import sb from '../SearchBar/sb.module.css'
 
 export default function HomePage(){
     const dispatch = useDispatch();
     const allDogs = useSelector((state)=> {return state.dogs});
     const [orden, setOrden] = useState("");
     const [pagActual, setPagActual] = useState(1);
-    const dogPerPage = 8
+    //son 8 por pagina pero por diseño se ve mejor con 9
+    const dogPerPage = 9
     const indexLastDog = pagActual * dogPerPage;
     const indexFirstDog = indexLastDog - dogPerPage;
     const dogActual = allDogs.slice(indexFirstDog, indexLastDog)
-    //const temperaments = useSelector(state => state.temperament);
     console.log('dogActual', dogActual);
 
     const paginado = (numberPage) => {
@@ -57,40 +60,39 @@ export default function HomePage(){
 
     return(
         <React.Fragment>
-            <div>
+            <div className={hm.container}>
                 <div>
-                    <h1>Bienvenido a la pagina de perros</h1>
+                    <h1 className={hm.tittle} >PI - DOGS</h1>
                 <Link to= '/dogs'>
-                    <button>Crear Perro</button>
+                    <h2><button className={hm.botonNewDog}>Crear Perro</button></h2>
                 </Link>
-                <button onClick={e=>{handleClick(e)}}>Recargar Perros</button>
+                <button className={hm.botonNewDog} onClick={e=>{handleClick(e)}}>Recargar Perros</button>
                 </div>
-                <SearchBar/>
 
                 <div>
-                    <select onChange={e=> {handleAToZ(e)}}>
+                    <select className={hm.botonNewDog} onChange={e=> {handleAToZ(e)}}>
                         <option value="">Busqueda alfabética</option>
                         <option value="asc">A-Z</option>
                         <option value="desc">Z-A</option>
                     </select>
                 </div>
                 <div>
-                    <select onChange={e => {handleScoreSort(e)}}>
+                    <select className={hm.botonNewDog} onChange={e => {handleScoreSort(e)}}>
                         <option value="">Busqueda por Peso</option>
                         <option value="up">Mas alto</option>
                         <option value="down">Mas bajo</option>
                     </select>
                 </div>
                 <div>
-                    <select onChange={e=>{handleFilterDb(e)}}>
+                    <select className={hm.botonNewDog} onChange={e=>{handleFilterDb(e)}}>
                         <option value="">Todos los perros</option>
                         <option value="created">Creados</option>
                         <option value="current">Existentes</option>
                     </select>
                 </div>
                 <div>
-                    <select onChange ={e => handleFilterByTemp(e)} defaultValue="default">
-                        <option value='default' disabled='disabled' >Filter by temperaments</option>
+                    <select className={hm.botonNewDog} onChange ={e => handleFilterByTemp(e)} defaultValue="default">
+                        <option value='default' disabled='disabled' >Filtro por temperamentos</option>
                         <option value='all'>All temperaments</option>
                         <option value='Loyal'>Leal</option>
                         <option value='Curious'>Curioso</option>
@@ -105,20 +107,16 @@ export default function HomePage(){
                         <option value='Intelligent'>Inteligente</option>
                         <option value='Brave'>Valiente</option>
                         <option value='Gentle'>Caballeroso</option>
-
-                        {/* Temperamentos por nombre c/u */}
-
-                            
-            </select>
+                    </select>
+                </div>  
+                <div className={sb.search}> 
+                <SearchBar/>
                 </div>
-                
-                <div>
-                    <span>
-                        <div>
+                <div className={cd.container}>
                             {
                                 dogActual?.map(r=>{
                                     return(
-                                        <div key = {r.id}>
+                                        <div key = {r.id} className={cd.card}>
                                             <Link to ={`/dogs/${r.id}`}>
                                                 <Card name={r.name} temperament={r.temperament} image={r.image} weight={r.weight.metric}/>
                                             </Link>
@@ -126,8 +124,7 @@ export default function HomePage(){
                                     )
                                 })
                             }
-                        </div>
-                    </span>
+        
                 </div>
                 <Pagination
                 dogPerPage={dogPerPage}

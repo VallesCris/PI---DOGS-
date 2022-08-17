@@ -41,64 +41,61 @@ router.get("/dogs/:id", async(req, res, next)=>{
     }
 });
 
-// router.get('/temperament', async (req, res) =>{
-//     const temperamentsApi = await axios.get(`https://api.thedogapi.com/v1/breeds/search?q=${raza_perro}`)
-//     const temperaments = temperamentsApi.data.map(e => e.temperament)
-//     const tempEach = temperaments.map(e=> {
-//         for (let i = 0; i < e.length; i++) return e[i]
-//     })
-//     tempEach.forEach(el => {
-//         Temperament.findOrCreate({
-//             where: { name: el}
-//         })
-//     })
-//     const allTemps = await Temperament.findAll();
-//     res.send(allTemps)
-// });
-
 router.post('/dogs', async(req, res, next)=>{
     try {
-        const {name, height, weight, lifeSpan, image, temperament} = req.body
+        const {name, minheight, maxheight, minweight, maxweight, minlife_span, maxlife_span, image, temperament} = req.body
+        console.log(req.body)
         let id = Math.floor(Math.random()*12345)
+        if(name && minheight && maxheight && minweight && maxweight && maxlife_span && minlife_span && temperament && image  ){
         const dogCreated = await Dog.create({
             id,
             name,
-            height,
-            weight,
-            lifeSpan,
-            temperament,
-            image
+            image,
+            height: maxheight - minheight,
+            weight: maxweight - minweight,
+            lifeSpan: maxlife_span - minlife_span,
+            createInDb: true,
         })
-        const dogsA = await Temperament.findAll({
-            where:{
-                name: temperament
-            }
-        })
-        await dogCreated.addTemperament(dogsA)
-        res.status(200).send('Perro creado con exito')
+        if(dogCreated){
+            temperament.forEach(async (e) => {
+            const tempCreate = await Temperament.findOne({
+                    where: {
+                        name: e
+                    }
+                })
+                if(tempCreate){
+                    await dogCreated.addTemperament(tempCreate)
+                }
+            });
+        return res.status(200).send('Perro creado con exito')
+        } else return res.status(400).send('No se creo el perro')
+    }
+      else {
+         return res.status(400).send('Faltan Datos')
+        }
     } catch (error) {
         next(error)
     }
 });
 
-
-
-
-
-
-
-
-
-/*router.get("/temperament", async (req, res) => {
-    let getDBInfo = await Temperament.findAll();
-    if (getDBInfo.length > 0) {
-      res.json(getDBInfo);
-    } else {
-      let filterTemps = await getTemp();
-      filterTemps
-        ? res.status(200).json(filterTemps)
-        : res.status(404).json({ error: "NO ESTAN LLEGANDO LOS TEMPERAMENTOS" });
+router.get('/temperaments', async (req, res, next) =>{
+    const typeTemps = ["Loyal", "Curious", "Playful", "Adventurous", "Active", "Fun-loving", "Independent",
+    "Happy", "Wild", "Intelligent", "Friendly", "Brave", "Gentle"];
+    try {
+        typeTemps.forEach(temp =>{
+            Temperament.findOrCreate({
+                where: {
+                    name: temp
+                }
+            })
+        })
+        const temps1 = await Temperament.findAll()
+        res.status(200).send(temps1)
+    } catch (error) {
+        next(error)
     }
-  });*/
+
+});
+
 
 module.exports = router;

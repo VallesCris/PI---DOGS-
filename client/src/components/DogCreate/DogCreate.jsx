@@ -1,9 +1,10 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import {Link,} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { getTemperaments, postDog } from "../../actions/indexActions";
 import { useState } from 'react';
+import dg from '../DogCreate/dg.module.css'
 
 function validation(newDog){
     let errors = {}
@@ -13,7 +14,7 @@ function validation(newDog){
     if(newDog.minheight && newDog.minheight <= 0 ){
         errors.numberMinheight = 'La altura minima debe ser mayor a 0!'
     }
-    if(newDog.maxheight && (newDog.maxheight > 500 || parseInt(newDog.minheight) > parseInt(newDog.maxheight))){
+    if(newDog.maxheight && (newDog.maxheight > 500 || newDog.maxheight <= 0|| parseInt(newDog.minheight) > parseInt(newDog.maxheight))){
         errors.numberMaxheight = `${newDog.maxheight} cm excede la altura maxima!`
     }
     if(newDog.minweight && newDog.minweight <= 0) {
@@ -34,13 +35,12 @@ export default function DogCreate(){
         maxweight:'', 
         minlife_span:'', 
         maxlife_span:'', 
-        temperament:[]
+        temperament:[],
+        image: '',
     });
 
     const dispatch = useDispatch();
-    const temperaments = useSelector(state => state.temperaments);
     const [errors, setErrors] = useState({});
-    const history = useHistory();
 
 
     useEffect(() => {
@@ -81,76 +81,108 @@ export default function DogCreate(){
             maxweight:'', 
             minlife_span:'', 
             maxlife_span:'', 
-            temperament:[]
+            temperament:[],
+            image: '',
         });
-        } 
+            } 
         else{
             alert('Algo va mal, Asegurate que todos los campos esten completos')
-        }
-        history.push('/home');
+         }
         };
 
       
     return (
-        <div>
-        <div>
-        <br />
-        <Link to ='/home'>
-        <button>Home</button> 
-        </Link>
-        <h3>CREATE NEW DOG</h3>
+        <div className={dg.container}>
+        <br />  
+        <h1 className={dg.h1}>CREATE NEW DOG</h1>
+        <br/>
         <form onSubmit={handleSubmit} >
-            <div >
-            <label>Nombre / Raza </label>
+
+            <div className={dg.div2}>
+            <label className={dg.label}>Nombre / Raza </label>
             <input type="text" name ="name" value ={newDog.name} onChange={handleChange}/><br/>
             { errors.name && 
-            <span>{errors.name}</span>
+            <span className={dg.error}>{errors.name}</span>
             }
             </div>
-            <div>
-            <label>Altura mínima (cm) </label>
-            <input type="number" name ="minheight" value ={newDog.minheight} onChange={handleChange} />
-            <label>Altura máxima (cm) </label>
-            <input type="number" name ="maxheight" value ={newDog.maxheight} onChange={handleChange} />
-            <br />
-            { (errors.numberMinheight ||errors.numberMaxheight) && 
-            <span>{(errors.numberMinheight)|| (errors.numberMaxheight)}</span>
+
+            <div className={dg.div2}>
+                <label className={dg.label}>Altura mínima (cm) </label>
+                <input type="number" name ="minheight" value ={newDog.minheight} onChange={handleChange} />
+                <br/>
+                <label className={dg.label}>Altura máxima (cm) </label>
+                <input type="number" name ="maxheight" value ={newDog.maxheight} onChange={handleChange} />
+                <br/>
+                { (errors.numberMinheight ||errors.numberMaxheight) && 
+                <span className={dg.error}>{(errors.numberMinheight)|| (errors.numberMaxheight)}</span>
             }            
             </div>
-            <div>
-            <label>Peso mínimo (kg) </label>
-            <input type="number" name ="minweight" value ={newDog.minweight} onChange={handleChange}/>
-            <label>Peso máximo (kg) </label>
-            <input type="number" name ="maxweight" value ={newDog.maxweight} onChange={handleChange} />
-            <br />
-            { (errors.numberMaxweight || errors.numberMinweight) && 
-            <span>{(errors.numberMaxweight)||(errors.numberMinweight)}</span>
+
+            <div className={dg.div2}>
+                <label className={dg.label}>Peso mínimo (kg) </label>
+                <input type="number" name ="minweight" value ={newDog.minweight} onChange={handleChange}/>
+                <label className={dg.label}>Peso máximo (kg) </label>
+                <input type="number" name ="maxweight" value ={newDog.maxweight} onChange={handleChange} />
+                <br />
+                { (errors.numberMaxweight || errors.numberMinweight) && 
+                <span className={dg.error}>{(errors.numberMaxweight)||(errors.numberMinweight)}</span>
             }
             </div>
-            <div>
-            <label>Años mínimos de vida </label>
-            <input type="number" name ="minlife_span" value ={newDog.minlife_span} onChange={handleChange}/>
-            <label>Años máximos de vida </label>
-            <input type="number" name ="maxlife_span" value ={newDog.maxlife_span} onChange={handleChange}/>
-            </div>
-
-
-            <div>
-            <label>Escoge los temperamentos </label>
-            <select onChange ={e => handleSelect(e)} defaultValue='default'>
-            <option value='default' disabled='default'></option>
-            { temperaments && temperaments.map(d =>    
-            <option key={d} value={d}>{d}</option>
-            )}
-            </select>
-            </div>
-
             
+            <div className={dg.div2}>
+                <label className={dg.label}>Años mínimos de vida </label>
+                <input type="number" name ="minlife_span" value ={newDog.minlife_span} onChange={handleChange}/>
+                <label className={dg.label}>Años máximos de vida </label>
+                <input type="number" name ="maxlife_span" value ={newDog.maxlife_span} onChange={handleChange}/>
+            </div>
+
+            <div className={dg.div2}>
+                <label className={dg.label}>Imagen</label>
+                <input type="text" value={newDog.image} name="image" onChange={(e)=>handleChange(e)}  className={dg.input}/>
+            </div>
+
+
+            <label className={dg.temps}>Temperamentos:</label>
+            <div className={dg.div2}>
+                <label className={dg.check}>Leal</label>
+                <input type="checkbox" value= "Loyal" name="Loyal" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Curioso</label>
+                <input type="checkbox" value= "Curious" name="Curious" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Jugueton</label>
+                <input type="checkbox" value= "Playful" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Aventuroso</label>
+                <input type="checkbox" value= "Adventurous" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Activo</label>
+                <input type="checkbox" value= "Active" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Amante de la diversión</label>
+                <input type="checkbox" value= "Fun-loving" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                </div>
+                <div className={dg.div2}>
+                <label className={dg.check}>Independiente</label>
+                <input type="checkbox" value= "Independent" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Alegre</label>
+                <input type="checkbox" value= "Happy" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Salvaje</label>
+                <input type="checkbox" value= "Wild" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Amigable</label>
+                <input type="checkbox" value= "Friendly" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Inteligente</label>
+                <input type="checkbox" value= "Intelligent" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Valiente</label>
+                <input type="checkbox" value= "Brave" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                <label className={dg.check}>Caballero</label>
+                <input type="checkbox" value= "Gentle" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
+                </div>
+
+
             <br /><br />
-            <button type='submit'>Submit</button>
+            {/* <button type='submit'>Submit</button> */}
+            <button type="submit" className={dg.button} disabled={Object.keys(errors).length}>Crear Perro</button>
             <br /><br />
         </form>
-        </div>
+        <Link to = '/home'>
+            <button className={dg.buttonB}>Volver al menú</button>
+         </Link>
         </div>
     ) 
     
