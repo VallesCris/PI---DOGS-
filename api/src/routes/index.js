@@ -44,7 +44,7 @@ router.get("/dogs/:id", async(req, res, next)=>{
 router.post('/dogs', async(req, res, next)=>{
     try {
         const {name, minheight, maxheight, minweight, maxweight, minlife_span, maxlife_span, image, temperament} = req.body
-        console.log(req.body)
+        //console.log(req.body)
         let id = Math.floor(Math.random()*12345)
         if(name && minheight && maxheight && minweight && maxweight && maxlife_span && minlife_span && temperament && image  ){
         const dogCreated = await Dog.create({

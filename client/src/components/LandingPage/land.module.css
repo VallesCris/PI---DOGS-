@@ -1,5 +1,5 @@
 *{
-    margin: 0;
+    margin: 0px;
 }
 
 
@@ -12,13 +12,18 @@
 }
 
 .h1{
-
     font-size: 30px;
     font-family: 'Alegreya ExtraBold', sans-serif;
     align-items: center;
-    padding: 29vh;
+    padding: 30vh;
     color: #000000;
-
+}
+.h2{
+    font-size: 30px;
+    font-family: 'Alegreya ExtraBold', sans-serif;
+    align-items: center;
+    padding: 40px;
+    color: #100f0f;
 }
 
 .button {

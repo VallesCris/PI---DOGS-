@@ -156,8 +156,8 @@ export default function DogCreate(){
                 <input type="checkbox" value= "Active" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
                 <label className={dg.check}>Amante de la diversión</label>
                 <input type="checkbox" value= "Fun-loving" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
-                </div>
-                <div className={dg.div2}>
+            </div>
+            <div className={dg.div2}>
                 <label className={dg.check}>Independiente</label>
                 <input type="checkbox" value= "Independent" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
                 <label className={dg.check}>Alegre</label>
@@ -172,13 +172,10 @@ export default function DogCreate(){
                 <input type="checkbox" value= "Brave" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
                 <label className={dg.check}>Caballero</label>
                 <input type="checkbox" value= "Gentle" name="Playful" onChange={(e) =>handleSelect(e)} className={dg.input}/>
-                </div>
-
-
-            <br /><br />
-            {/* <button type='submit'>Submit</button> */}
-            <button type="submit" className={dg.button} disabled={Object.keys(errors).length}>Crear Perro</button>
-            <br /><br />
+            </div>
+                <br /><br />
+                    <button type="submit" className={dg.button} disabled={Object.keys(errors).length}>Crear Perro</button>
+                <br /><br />
         </form>
         <Link to = '/home'>
             <button className={dg.buttonB}>Volver al menú</button>

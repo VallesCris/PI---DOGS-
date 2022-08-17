@@ -32,10 +32,9 @@ const getDbInfo = async()=>{
                 attributes: []
             }   
         },
-        //raw: true
     })
 
-    console.log('dogs', dogsO)
+    //console.log('dogs', dogsO)
     return dogsO.map(e =>{
         return{
             id: e.id,
