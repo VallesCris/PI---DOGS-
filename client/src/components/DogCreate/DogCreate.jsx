@@ -61,11 +61,19 @@ export default function DogCreate(){
       };
      
       function handleSelect(e){ 
-          setNewDog({
+          if(e.target.checked === true){
+            setNewDog({
               ...newDog,
               temperament: [...newDog.temperament,e.target.value]
           });
-          e.target.value = 'default'
+        } else {
+            setNewDog({
+                ...newDog,
+                temperament: newDog.temperament.filter(x =>{
+                    return e.target.value !== x
+                })
+            })
+        }
       };
 
       function handleSubmit(e){

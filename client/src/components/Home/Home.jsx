@@ -20,7 +20,7 @@ export default function HomePage(){
     const indexLastDog = pagActual * dogPerPage;
     const indexFirstDog = indexLastDog - dogPerPage;
     const dogActual = allDogs.slice(indexFirstDog, indexLastDog)
-    //console.log('dogActual', dogActual);
+    console.log('dogActual', dogActual);
 
     const paginado = (numberPage) => {
         setPagActual(numberPage)
